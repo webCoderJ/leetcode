@@ -9,7 +9,7 @@
  * @param {number[]} height
  * @return {number}
  */
-var trap = function (height) {
+var trapByDp = function (height) {
     // 当前位置左边最大高度
     let leftPreMax = height[0];
     let leftMax = [leftPreMax];
@@ -42,6 +42,54 @@ var trap = function (height) {
 
     return sum;
 };
+// time: O(N) space: O(1)
+function trapByDoublePointer(height) {
+    let left = 0;
+    let right = height.length - 1;
+    let leftMax = height[0];
+    let rightMax = height[right];
+    let water = 0;
+
+    // left++;
+    // right--;
+
+    while (left <= right) {
+        leftMax = Math.max(height[left], leftMax);
+        rightMax = Math.max(height[right], rightMax);
+        if (leftMax < rightMax) {
+            water += leftMax - height[left];
+            left++;
+        } else {
+            water += rightMax - height[right];
+            right--;
+        }
+    }
+    return water;
+}
+function trapByStack(height) {
+    let stack = [];
+    let water = 0;
+    let p = 0;
+
+    while (p < height.length) {
+
+        // 找到接水区域
+        while (height[p] > height[stack[stack.length - 1]]) {
+            const bottomIndex = stack.pop();
+            // 空栈，终止
+            if (stack.length === 0) break;
+            let w = p - stack[stack.length - 1] - 1;
+            let h = Math.min(height[stack[stack.length - 1]], height[p]) - height[bottomIndex];
+            water += w * h;
+        }
+
+        stack.push(p);
+        p++;
+    }
+
+    return water;
+}
+var trap = trapByStack;
 // @lc code=end
 
 
