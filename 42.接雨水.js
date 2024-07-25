@@ -56,6 +56,7 @@ function trapByDoublePointer(height) {
     while (left <= right) {
         leftMax = Math.max(height[left], leftMax);
         rightMax = Math.max(height[right], rightMax);
+        // 判断哪边可以接住
         if (leftMax < rightMax) {
             water += leftMax - height[left];
             left++;
@@ -66,6 +67,7 @@ function trapByDoublePointer(height) {
     }
     return water;
 }
+// time: O(N) space: O(1)
 function trapByStack(height) {
     let stack = [];
     let water = 0;
