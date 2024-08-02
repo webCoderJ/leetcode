@@ -12,7 +12,7 @@
 var uniquePathsIII = function (grid) {
     let h = grid.length - 1;
     let w = grid[0].length - 1;
-    let maxDepth = grid.flat(2).filter(it => it !== -1).length;
+    let maxDepth = grid.flat(2).filter(it => it !== -1).length - 1;
     let pathNumber = 0;
     let used = new Array(h + 1).fill(0).map(() => new Array(w + 1).fill(false));
 
@@ -29,14 +29,14 @@ var uniquePathsIII = function (grid) {
 
     function backTrack(depth, x, y) {
         // 走完了
-        if (depth > maxDepth - 1) return;
+        if (depth > maxDepth) return;
         // 出边界了
         if (x < 0 || x > w) return;
         if (y < 0 || y > h) return;
         // 已经当前路径下已经使用过
         if (used[y][x]) return;
-        // 到达终点
-        if (depth === maxDepth - 1 && grid[y][x] === 2) {
+        // 到达终点(必须使用完所有点)
+        if (depth === maxDepth && grid[y][x] === 2) {
             pathNumber += 1;
             return;
         };
