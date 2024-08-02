@@ -41,5 +41,27 @@ var maxPathSum = function (root) {
 
     return maxSum;
 };
+
+var maxPathSum2 = function (root) {
+    let maxSum = -Infinity;
+
+    function dfs(node) {
+        if (!node) return 0;
+
+        // 深度优先
+        let leftGain = Math.max(dfs(node.left), 0);
+        let rightGain = Math.max(dfs(node.right), 0);
+
+        maxSum = Math.max(node.val + leftGain + rightGain, maxSum);
+
+        return node.val + Math.max(leftGain, rightGain);
+    }
+
+    dfs(root);
+
+    return maxSum;
+}
+
+var maxPathSum = maxPathSum2;
 // @lc code=end
 
